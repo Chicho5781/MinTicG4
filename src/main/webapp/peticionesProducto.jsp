@@ -10,7 +10,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <% 
-String respuesta = "";
+String respuesta = "{";
 String proceso = request.getParameter("proceso"); //request HTTP  
 //a los request se les puede pasar parámetros
 //se va a validar el tipo de proceso
@@ -34,6 +34,7 @@ switch(proceso){
         
     case "ActualizarProducto":
         System.out.println("Actualizar Producto");
+        c.setIdProducto(Integer.parseInt(request.getParameter("idProducto")));
         c.setCodigo(request.getParameter("Codigo"));
         c.setDescripcion(request.getParameter("Descripcion"));
         c.setEstado(request.getParameter("Estado"));
@@ -53,7 +54,7 @@ switch(proceso){
         System.out.println("Eliminar Producto");
         int idproducto = Integer.parseInt(request.getParameter("idProducto"));
         if(c.EliminarProducto(idproducto)){
-         respuesta += "\"" + proceso + "\": true";  // el \ se usa para concatenar en json indicando que se hizo el proceso (true)
+            respuesta += "\"" + proceso + "\": true";  // el \ se usa para concatenar en json indicando que se hizo el proceso (true)
         } else{
             respuesta += "\"" + proceso + "\": false";  // el \ se usa para concatenar en json indicando que NO se hizo el proceso (false)
         }
@@ -64,9 +65,9 @@ switch(proceso){
         System.out.println("Consultar Productos");
         List<Producto> listaProductos = c.ConsultarProductos();
         if(listaProductos.isEmpty()){
-            respuesta += "\"" + proceso + "\": true,\"Contactos\":[]"; //genera una lista vacía en el json
+            respuesta += "\"" + proceso + "\": false,\"Productos\":[]"; //genera una lista vacía en el json
         } else{
-            respuesta += "\"" + proceso + "\": true,\"Contactos\":" + new Gson().toJson(listaProductos); //guarda la lista en el json
+            respuesta += "\"" + proceso + "\": true,\"Productos\":" + new Gson().toJson(listaProductos); //guarda la lista en el json
         }
         break;
 
@@ -79,11 +80,8 @@ switch(proceso){
         respuesta += "\"error\": \"INVALID\",";
         respuesta += "\"errorMsg\": \"Lo sentimos, los datos que ha enviado,"
                 + " son inválidos. Corrijalos y vuelva a intentar por favor.\"";
-
-        
 }
-
-            // cierra la respuesta
+// cierra la respuesta
 respuesta += "}";
 response.setContentType("application/json;charset=iso-8859-1");
 out.print(respuesta);

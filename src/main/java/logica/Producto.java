@@ -87,10 +87,13 @@ public class Producto {
     {
         // El campo Cantidad no se graba debido a que este campo se actualiza en el movimiento de productos
         ConexionBD conexion = new ConexionBD();
+        //String sentencia = "INSERT INTO productos(Codigo, Descripcion, Estado)"
+        //        + " VALUES ( '" + this.codigo + "','" + this.descripcion + "'" + this.cantidad + "');  ";
+
         String sentencia = "INSERT INTO productos(Codigo, Descripcion, Estado, Cantidad, ValorCompra, ValorVenta)"
-                + " VALUES ( '" + this.codigo + "','" + this.descripcion + "',"
-                + "'" + this.estado + "'" + this.cantidad + "','" + this.valorcompra + "','" + this.valorventa +  "');  ";
-                
+               + " VALUES ( '" + this.codigo + "','" + this.descripcion + "',"
+               + "'" + this.estado + "','" + this.cantidad + "','" + this.valorcompra + "','" + this.valorventa +  "');  ";
+
         //Se configura el setAutocommit de la conexionBD a falso
         if(conexion.setAutoCommitBD(false)){
             if(conexion.insertarBD(sentencia)){
@@ -133,7 +136,7 @@ public class Producto {
         ConexionBD conexion = new ConexionBD();
         String sentencia = "UPDATE `productos` SET Codigo='" + this.codigo + "',Descripcion='" + this.descripcion + "',Estado='" + this.estado
                 + "',Cantidad='" + this.cantidad + "',ValorCompra='" + this.valorcompra + "',ValorVenta='" + this.valorventa 
-                +  "' WHERE identificacion=" + this.idProducto + ";";
+                +  "' WHERE idProducto=" + this.idProducto + ";";
 
         if(conexion.setAutoCommitBD(false)){
             if(conexion.actualizarBD(sentencia)){
